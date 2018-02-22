@@ -1,0 +1,119 @@
+body {
+    font-family: Arial;
+    font-size: 12px;
+    color: #424242;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+}
+.container {
+    width: 100%;
+}
+
+.header {
+    margin: auto;
+}
+
+.buttons{
+    display: flex;
+}
+
+.reload{
+    margin-left: auto
+}
+
+.board-size {
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.board {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d4e4ef+0,86aecc+100;Grey+Gloss */
+    background: #d4e4ef; /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #d4e4ef 0%, #86aecc 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #d4e4ef 0%,#86aecc 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #d4e4ef 0%,#86aecc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: space-around;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 6px 6px 6px 0 rgba(46, 61, 73, 0.5);
+    border-radius: 10px;
+    pointer-events: none;
+
+}
+
+.card {
+    padding: 2%;
+    box-sizing: border-box;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    position: relative;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+/*
+card flipping inspired by
+https://desandro.github.io/3dtransforms/docs/card-flip.html*/
+
+.card.flipped {
+    transform: rotateY( 180deg );
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.card-front.solved {
+    background: #8ae768;
+}
+
+.card-back {
+    position: absolute;
+    background: #2e3d49;
+    width: 90%;
+    height: 90%;
+    border-radius: 6px;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    backface-visibility: hidden;
+    top: 5%;
+    left: 5%;
+}
+
+.card-front {
+    transform: rotateY( 180deg );
+    position: absolute;
+    background: #4b7ba2;
+    width: 90%;
+    height: 90%;
+    border-radius: 6px;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    font-size: 3em;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    top: 5%;
+    left: 5%;
+    cursor: default;
+}
+
+svg {
+    color: white;
+    backface-visibility: hidden;
+}
+
+
+@media screen and (min-width: 400px) {
+    .card-front {
+        font-size: 4em;
+    }
+}
