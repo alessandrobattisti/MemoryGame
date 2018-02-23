@@ -1,14 +1,10 @@
-body, html {
-  height: 100%;
-}
-
-* { box-sizing: border-box; }
-
 body {
     font-family: 'Coda', cursive;
     font-size: 12px;
     color: #424242;
 }
+                                    /* HEADER */
+
 h1 {
     text-align: center;
     margin: 0;
@@ -16,36 +12,44 @@ h1 {
     font-weight: normal;
     font-size: 2em;
 }
+
 .timer {
     font-size: 0.5em;
 }
+
 .container {
     width: 100%;
 }
 
 .header {
     margin: auto;
+    padding-bottom: 5px;
 }
-.stars, #n-moves{
+
+.stars, #n-moves {
     margin-left: 10px;
 }
-.stars i{
+
+.stars i {
     display: inline-block;
 }
-.buttons{
+
+.buttons {
     display: flex;
     align-items: center;
     align-content: space-around;
-    margin-bottom: 5px;
 }
+
 .buttons svg {
     color: #424242;
 }
+
 .score {
     display: flex;
     width:45%;
 }
-.reload{
+
+.reload {
     width: 10%;
     margin-left: auto;
     text-align: center;
@@ -59,12 +63,14 @@ h1 {
     justify-content: flex-end;
     margin-left: auto;
 }
+
 select {
     font-size: 1.3em;
     background: white;
     border: 0;
     min-width: 2em;
 }
+                                    /*BOARD*/
 
 .board {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d4e4ef+0,86aecc+100;Grey+Gloss */
@@ -94,7 +100,6 @@ select {
     transform-style: preserve-3d;
     transition: transform 0.5s;
     position: relative;
-    /*pointer-events: all;*/
     cursor: pointer;
 }
 
@@ -195,6 +200,8 @@ svg {
     backface-visibility: hidden;
 }
 
+                            /*GAME WON OVERLAY*/
+
 .game-won {
     position: absolute;
     top: 0;
@@ -218,6 +225,7 @@ svg {
 .centering {
     margin: auto;
 }
+
 .ok {
     border: 2px solid lightgray;
     border-radius: 50%;
@@ -248,16 +256,17 @@ svg {
     }
 }
 
-
-.congratulation{
+.congratulation {
     margin-top: 30px;
     font-size: 2em;
     font-weight: bold;
 }
+
 .time {
     margin-top: 30px;
     font-size: 1.2em;
 }
+
 .play-again {
     margin-top: 30px;
     background-color: #35d548;
@@ -266,9 +275,12 @@ svg {
     border: none;
     cursor: pointer;
 }
+
 .play-again:focus {
     background-color: #33b943;
 }
+
+                                /*MEDIA QUERIES*/
 
 @media screen and (max-width: 330px) {
     .stars {
@@ -276,12 +288,39 @@ svg {
     }
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (max-width: 400px) {
+    .card-front {
+        font-size: 2em!important;
+    }
+}
+
+@media screen and (max-height: 400px) {
+    .card-front {
+        font-size: 2em!important;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .card-front {
+        font-size: 2.5em!important;
+    }
+}
+
+@media screen and (max-height: 500px) {
+    .card-front {
+        font-size: 2.5em!important;
+    }
+}
+
+@media screen and (min-width: 501px) {
     .card-front {
         font-size: 3.5em;
     }
 }
 @media screen and (min-width: 700px) {
+    .card-front {
+        font-size: 4em!important;
+    }
     .board {
         padding: 20px;
     }

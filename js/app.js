@@ -1,38 +1,15 @@
 const imgs = [
-    "flag-checkered",
-    "futbol",
-    "home",
-    "lemon",
-    "location-arrow",
-    "lock",
-    "magnet",
-    "medkit",
-    "money-bill-alt",
-    "plug",
-    "puzzle-piece",
-    "chess-bishop",
-    "chess-king",
-    "chess-knight",
-    "chess-pawn",
-    "chess-rook",
-    "anchor",
-    "bath",
-    "bed",
-    "bicycle",
-    "binoculars",
-    "bug",
-    "bus",
-    "camera-retro",
-    "cube",
-    "eye",
-    "female",
-    "fighter-jet",
-    "fire-extinguisher",
-]
+    "flag-checkered", "futbol", "home", "lemon", "location-arrow", "lock",
+    "magnet", "medkit", "money-bill-alt", "plug", "puzzle-piece", "chess-bishop",
+    "chess-king", "chess-knight", "chess-pawn", "chess-rook", "anchor",
+    "bath", "bed", "bicycle", "binoculars", "bug", "bus", "camera-retro", "cube",
+    "eye", "female", "fighter-jet", "fire-extinguisher"
+];
+
 const board = document.querySelector('.board');
 const header = document.querySelector('.header');
-const b_size_sel = document.getElementById('board-size');
-const moves_span = document.getElementById('n-moves');
+const b_size_sel = document.querySelector('#board-size');
+const moves_span = document.querySelector('#n-moves');
 const stars_div = document.querySelector('.stars');
 const reload_button = document.querySelector('.reload');
 const play_again_button = document.querySelector('.play-again');
@@ -45,8 +22,9 @@ const time_taken =  document.querySelector('.time-taken');
 
 const solved = [];
 const flipped = [];
+
 let my_timer = null;
-let stars = 5;
+let stars = 3;
 let moves = 0;
 let min_moves = 0;
 let animation_running = false;
@@ -69,7 +47,7 @@ function reset_data(){
     flipped.splice(0,solved.length);
     moves = 0;
     min_moves = 0;
-    stars = 5;
+    stars = 3;
     time = 0;
     animation_running = false;
     first_selected = false;
@@ -78,11 +56,14 @@ function reset_data(){
 }
 
 function define_height(){
-    const h_height = header.offsetHeight
+    //this function compute the right board dimension to fit the screen
+    game_won_tab.style.height = 'px';
+    const h_height = header.offsetHeight;
     const w_widht = window.innerWidth;
     const w_height = window.innerHeight;
     let b_height = board.offsetHeight;
     let b_width = board.offsetWidth;
+
     if(w_widht >= w_height){
         let width =  w_height - 15 - h_height;
         if(width > 700){
@@ -96,108 +77,126 @@ function define_height(){
         if(width > 700){
             width = 700;
         }
-        board.style.height = width - 15  + 'px';
-        board.style.width = width - 15  + 'px';
-        header.style.width =  width - 15  + 'px';
+        board.style.height = width  + 'px';
+        board.style.width = width   + 'px';
+        header.style.width =  width   + 'px';
     }
+
+    if(window.innerHeight>document.body.scrollHeight){
+        game_won_tab.style.height = window.innerHeight+'px';
+    }else{
+        game_won_tab.style.height = document.body.scrollHeight+'px';
+    }
+
 }
 
 function init_board(){
-    //init or clear timer
+    //INIT OR CLEAR TIMER
     timer_span.innerHTML = '';
     time = 0;
     clearTimeout(my_timer);
     timer_started = false;
-    //update score and game won tab's height
-    game_won_tab.style.height = document.body.scrollHeight+'px';
+    //UPDATE SCORE
     moves_span.innerHTML = moves;
-    //update stars
-    for (let i = 0; i < 5; i++){
+    //UPDATE STARS
+    for (let i = 0; i < 3; i++){
         const el = document.createElement('i');
         el.className = 'fas fa-star';
         stars_div.appendChild( el );
     }
-    //create cards
+    //CREATE AND INSERT CARDS
     const fragment = document.createDocumentFragment();
     board_size = b_size_sel.options[b_size_sel.selectedIndex].value;
-    const selected_img = shuffleArray(imgs).slice( 0, board_size**2 / 2 )
+    //select random images
+    const selected_img = shuffleArray(imgs).slice( 0, board_size**2 / 2 );
+    //shuffle cards
     const img_array = shuffleArray( selected_img.concat(selected_img) );
     min_moves = board_size * 2;
+    //insert into board
     for ( i=0; i < board_size**2; i++){
         const newElement = document.createElement('div');
+        //create card
         newElement.className = 'card';
-        newElement.style.height = 100 / board_size  + "%"
-        newElement.style.width =  100 / board_size  + "%"
-
+        newElement.style.height = 100 / board_size  + "%";
+        newElement.style.width =  100 / board_size  + "%";
+        //create card-back
         const card_back = document.createElement('div');
         card_back.className = 'card-back';
+        //create card-front
         const card_front = document.createElement('div');
         card_front.className = 'card-front';
         const icon = document.createElement('i');
         icon.className = 'fas fa-'+img_array[i];
+        //append to card
         card_front.appendChild(icon);
         newElement.appendChild(card_front);
         newElement.appendChild(card_back);
+        //append to fragment
         fragment.appendChild(newElement);
     }
     board.appendChild(fragment)
 }
 
 function check_card(card){
+    //compare classes of flipped cards
     const card_class = card.querySelector('.card-front').firstChild.classList[1];
     const first_class = first_selected.querySelector('.card-front').firstChild.classList[1];
-
+    //if are identical
     if(first_class === card_class){
         card.classList.toggle('solved');
         first_selected.classList.toggle('solved');
-
-
+        //add to solved array
         solved.push(card);
         solved.push(first_selected);
-        first_selected = false;
+        first_selected = false; // now there's no card selected
+        //timeout to wait until the css animation ends
         setTimeout(function(){ animation_running = false; }, 500);
+        //check if game is won
         if (solved.length == board_size ** 2){
             game_won();
         }
 
     }else{
+        //start error animation
         card.classList.toggle('error');
         first_selected.classList.toggle('error');
-
+        //remove from flipped array
         flipped.pop();
         flipped.pop();
+        //timeout to wait until the css animation ends
         setTimeout(function(){
+            //end error animation
             card.classList.toggle('error');
             first_selected.classList.toggle('error');
-
-
+            //flip both cards
             card.classList.toggle('flipped');
             first_selected.classList.toggle('flipped');
             first_selected = false;
-
         }, 500);
-
+        //timeout to wait untile the css animation ends
         setTimeout(function(){ animation_running = false; }, 500);
     }
 
 }
 
 function change_stars(moves){
+    //this function insert the stars into the header
     let difference =  moves - min_moves;
     if ( difference < 0 ){
         return;
     }else{
-        new_stars = 5 - Math.floor( difference / ( min_moves / 1.5 ) )
+        //compute stars number
+        new_stars = 3 - Math.floor( difference / ( min_moves / 1.5 ) );
     }
-
+    //if stars changed update the page
     if (new_stars <= stars && new_stars > -1){
-        stars_div.innerHTML = ''
+        stars_div.innerHTML = '';
         for (let i = 0; i < new_stars; i++){
             const el = document.createElement('i');
             el.className = 'fas fa-star';
             stars_div.appendChild( el );
         }
-        for (let i = 0; i < 5 - new_stars; i++){
+        for (let i = 0; i < 3 - new_stars; i++){
             const el = document.createElement('i');
             el.className = 'far fa-star';
             stars_div.appendChild( el );
@@ -208,24 +207,26 @@ function change_stars(moves){
 }
 
 function game_won(){
+    //actions and animations to do if user won the game
+    timer_span.innerHTML = '';
+    clearTimeout(my_timer);
     end_star.innerHTML = stars;
     end_moves.innerHTML = moves;
     time_taken.innerHTML = time;
     game_won_tab.classList.toggle('hidden-game-won');
     setTimeout( function(){ok_tab.classList.toggle('ok-animation'); }, 250)
-
 }
 
 function start_timer(){
-    timer_span.innerHTML = time + ' s'
+    //create and start the timer
+    timer_span.innerHTML = time + ' s';
     my_timer = setInterval(function() {
         time += 1;
-        timer_span.innerHTML = time + ' s'
+        timer_span.innerHTML = time + ' s';
     }, 1000);
 }
 
-define_height();
-init_board();
+                                /*LISTENERS*/
 
 board.addEventListener('click', function(e){
     const card = e.target.parentNode;
@@ -233,12 +234,13 @@ board.addEventListener('click', function(e){
         start_timer();
         timer_started = true;
     }
+    //if the card clicked is solved or flipped already ignore
     if(solved.indexOf(card) > -1 || animation_running || flipped.indexOf(card) > -1){
         return;
-    }
-    console.log(solved.length, board_size**2)
+    }//else flip
     card.classList.toggle('flipped');
-    flipped.push(card)
+    flipped.push(card);
+    //if it's the second flipped card compare it with the first one
     if(first_selected != false){
         moves += 1;
         change_stars(moves);
@@ -248,22 +250,28 @@ board.addEventListener('click', function(e){
     }else{
         first_selected = card;
     }
-})
+});
 
 reload_button.addEventListener('click', function(){
     reset_data();
     init_board();
-})
+});
 
 b_size_sel.addEventListener('change', function(){
+    //reset if board size has changed
     reset_data();
     init_board();
-})
+});
 
 play_again_button.addEventListener('click', function(){
     game_won_tab.classList.toggle('hidden-game-won');
     ok_tab.classList.toggle('ok-animation');
     reset_data();
     init_board();
+});
 
-})
+window.addEventListener( 'resize', define_height );
+
+
+define_height();
+init_board();
