@@ -211,6 +211,11 @@ function game_won(){
     timer_span.innerHTML = '';
     clearTimeout(my_timer);
     end_star.innerHTML = stars;
+    if(stars==1){
+        document.querySelector('.pluralize-stars').style.display = 'none';
+    }else{
+        document.querySelector('.pluralize-stars').style.display = 'inline';
+    }
     end_moves.innerHTML = moves;
     time_taken.innerHTML = time;
     game_won_tab.classList.toggle('hidden-game-won');
@@ -243,6 +248,11 @@ board.addEventListener('click', function(e){
     //if it's the second flipped card compare it with the first one
     if(first_selected != false){
         moves += 1;
+        if(moves==1){
+            document.querySelector('.pluralize-moves').style.display = 'none';
+        }else{
+            document.querySelector('.pluralize-moves').style.display = 'inline';
+        }
         change_stars(moves);
         moves_span.innerHTML = moves;
         animation_running = true;

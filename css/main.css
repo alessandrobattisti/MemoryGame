@@ -280,6 +280,9 @@ svg {
     background-color: #33b943;
 }
 
+.time-taken, .end-moves, .end-star{
+    font-weight: bold;
+}
                                 /*MEDIA QUERIES*/
 
 @media screen and (max-width: 330px) {
