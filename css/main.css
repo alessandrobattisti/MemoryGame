@@ -33,9 +33,9 @@ h1 {
 .board {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d4e4ef+0,86aecc+100;Grey+Gloss */
     background: #d4e4ef; /* Old browsers */
-    background: -moz-linear-gradient(-45deg, #d4e4ef 0%, #86aecc 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg, #d4e4ef 0%,#86aecc 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg, #d4e4ef 0%,#86aecc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(-45deg, #6886b4 0%, #8dcc86 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #6886b4 0%,#8dcc86 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg, #6886b4 0%,#8dcc86 100); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
     width: 100%;
     margin: auto;
@@ -49,7 +49,7 @@ h1 {
     box-shadow: 6px 6px 6px 0 rgba(46, 61, 73, 0.5);
     border-radius: 10px;
     pointer-events: none;
-
+%)
 }
 
 .card {
@@ -58,7 +58,7 @@ h1 {
     transform-style: preserve-3d;
     transition: transform 1s;
     position: relative;
-    pointer-events: all;
+    /*pointer-events: all;*/
     cursor: pointer;
 }
 
@@ -71,8 +71,53 @@ https://desandro.github.io/3dtransforms/docs/card-flip.html*/
     cursor: not-allowed;
     pointer-events: none;
 }
-.card-front.solved {
-    background: #8ae768;
+
+.solved .card-front  {
+    background: #74c364;
+    animation : pulse 0.3s 2;
+}
+
+.error .card-front  {
+    background: #d23333;
+    animation : no_no 0.2s 2;
+}
+
+@keyframes pulse {
+    from {
+        transform : rotateY( 180deg ) scale(1);
+        opacity   : 1;
+    }
+    50% {
+        transform : rotateY( 180deg ) scale(0.75);
+        opacity   : 1;
+    }
+    to {
+        transform : rotateY( 180deg ) scale(1);
+        opacity   : 1;
+    }
+}
+
+@keyframes no_no {
+    from {
+        transform : rotateY( 180deg ) rotate(0deg);
+        opacity   : 1;
+    }
+    25% {
+        transform : rotateY( 180deg ) rotate(-10deg);
+        opacity   : 1;
+    }
+    50% {
+        transform : rotateY( 180deg ) rotate(0deg);
+        opacity   : 1;
+    }
+    75% {
+        transform : rotateY( 180deg ) rotate(10deg);
+        opacity   : 1;
+    }
+    to {
+        transform : rotateY( 180deg ) rotate(0deg);
+        opacity   : 1;
+    }
 }
 
 .card-back {
@@ -85,9 +130,11 @@ https://desandro.github.io/3dtransforms/docs/card-flip.html*/
     backface-visibility: hidden;
     top: 5%;
     left: 5%;
+    pointer-events: all;
 }
 
 .card-front {
+    transition: scale 1s ease-in-out;
     transform: rotateY( 180deg );
     position: absolute;
     background: #4b7ba2;
@@ -115,5 +162,10 @@ svg {
 @media screen and (min-width: 400px) {
     .card-front {
         font-size: 4em;
+    }
+}
+@media screen and (min-width: 700px) {
+    .board {
+        padding: 30px;
     }
 }
