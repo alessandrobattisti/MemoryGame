@@ -28,7 +28,6 @@ let stars = 3;
 let moves = 0;
 let min_moves = 0;
 let animation_running = false;
-let first_selected = false;
 let board_size = 0;
 let timer_started = false;
 let time = 0;
@@ -50,7 +49,6 @@ function reset_data(){
     stars = 3;
     time = 0;
     animation_running = false;
-    first_selected = false;
     board.innerHTML = '';
     stars_div.innerHTML = '';
 }
@@ -137,20 +135,21 @@ function init_board(){
     board.appendChild(fragment)
 }
 
-function check_card(card){
+function check_cards(){
     //compare classes of flipped cards
-    const card_class = card.querySelector('.card-front').firstChild.classList[1];
-    const first_class = first_selected.querySelector('.card-front').firstChild.classList[1];
+    console.log(flipped)
+    const card_class = flipped[0].querySelector('.card-front').firstChild.classList[1];
+    const first_class = flipped[1].querySelector('.card-front').firstChild.classList[1];
     //if are identical
     if(first_class === card_class){
-        card.classList.toggle('solved');
-        first_selected.classList.toggle('solved');
+        flipped[0].classList.toggle('solved');
+        flipped[1].classList.toggle('solved');
         //add to solved array
-        solved.push(card);
-        solved.push(first_selected);
-        first_selected = false; // now there's no card selected
+        solved.push(flipped[0]);
+        solved.push(flipped[1]);
+        flipped.splice(0, flipped.length); // now there's no card selected
         //timeout to wait until the css animation ends
-        setTimeout(function(){ animation_running = false; }, 500);
+        setTimeout(function(){ animation_running = false; }, 300);
         //check if game is won
         if (solved.length == board_size ** 2){
             game_won();
@@ -158,23 +157,22 @@ function check_card(card){
 
     }else{
         //start error animation
-        card.classList.toggle('error');
-        first_selected.classList.toggle('error');
-        //remove from flipped array
-        flipped.pop();
-        flipped.pop();
+        flipped[0].classList.toggle('error');
+        flipped[1].classList.toggle('error');
         //timeout to wait until the css animation ends
         setTimeout(function(){
             //end error animation
-            card.classList.toggle('error');
-            first_selected.classList.toggle('error');
+            flipped[0].classList.toggle('error');
+            flipped[1].classList.toggle('error');
             //flip both cards
-            card.classList.toggle('flipped');
-            first_selected.classList.toggle('flipped');
-            first_selected = false;
-        }, 500);
+            flipped[0].classList.toggle('flipped');
+            flipped[1].classList.toggle('flipped');
+            //remove from flipped array
+            flipped.pop();
+            flipped.pop();
+        }, 300);
         //timeout to wait untile the css animation ends
-        setTimeout(function(){ animation_running = false; }, 500);
+        setTimeout(function(){ animation_running = false; }, 300);
     }
 
 }
@@ -246,7 +244,7 @@ board.addEventListener('click', function(e){
     card.classList.toggle('flipped');
     flipped.push(card);
     //if it's the second flipped card compare it with the first one
-    if(first_selected != false){
+    if(flipped.length === 2){
         moves += 1;
         if(moves==1){
             document.querySelector('.pluralize-moves').style.display = 'none';
@@ -256,9 +254,7 @@ board.addEventListener('click', function(e){
         change_stars(moves);
         moves_span.innerHTML = moves;
         animation_running = true;
-        setTimeout( function(){ check_card(card) }, 500);
-    }else{
-        first_selected = card;
+        setTimeout( function(){ check_cards() }, 300);
     }
 });
 
@@ -269,8 +265,10 @@ reload_button.addEventListener('click', function(){
 
 b_size_sel.addEventListener('change', function(){
     //reset if board size has changed
-    reset_data();
-    init_board();
+    if( animation_running == false){
+        reset_data();
+        init_board();
+    }
 });
 
 play_again_button.addEventListener('click', function(){

@@ -98,7 +98,7 @@ select {
     padding: 2%;
     box-sizing: border-box;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
+    transition: transform 0.3s;
     position: relative;
     cursor: pointer;
 }
@@ -176,7 +176,7 @@ https://desandro.github.io/3dtransforms/docs/card-flip.html*/
 }
 
 .card-front {
-    transition: scale 0.5s ease-in-out;
+    transition: scale 0.3s ease-in-out;
     transform: rotateY( 180deg );
     position: absolute;
     background: #4b7ba2;
@@ -209,7 +209,7 @@ svg {
     width: 100%;
     background: #ffffffe6;
     text-align: center;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease;
     display: flex;
     align-items: center;
 }
