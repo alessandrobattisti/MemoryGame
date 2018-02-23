@@ -98,7 +98,7 @@ function init_board(){
     timer_started = false;
     //UPDATE SCORE
     moves_span.innerHTML = moves;
-    //UPDATE STARS
+    //INSERT STARS
     for (let i = 0; i < 3; i++){
         const el = document.createElement('i');
         el.className = 'fas fa-star';
@@ -189,7 +189,7 @@ function change_stars(moves){
         new_stars = 3 - Math.floor( difference / ( min_moves / 1.5 ) );
     }
     //if stars changed update the page
-    if (new_stars <= stars && new_stars > -1){
+    if (new_stars <= stars && new_stars > 0){
         stars_div.innerHTML = '';
         for (let i = 0; i < new_stars; i++){
             const el = document.createElement('i');
