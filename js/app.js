@@ -53,8 +53,8 @@ function reset_data(){
     stars_div.innerHTML = '';
 }
 
+/** This function compute the right board dimension to fit the screen. */
 function define_height(){
-    //this function compute the right board dimension to fit the screen
     game_won_tab.style.height = 'px';
     const h_height = header.offsetHeight;
     const w_widht = window.innerWidth;
@@ -88,6 +88,7 @@ function define_height(){
 
 }
 
+/** Init the board. */
 function init_board(){
     //INIT OR CLEAR TIMER
     timer_span.innerHTML = '';
@@ -133,10 +134,11 @@ function init_board(){
         fragment.appendChild(newElement);
     }
     board.appendChild(fragment)
+    board.style.display = 'flex';
 }
 
+/** Compare CSS classes of flipped cards. */
 function check_cards(){
-    //compare classes of flipped cards
     console.log(flipped)
     const card_class = flipped[0].querySelector('.card-front').firstChild.classList[1];
     const first_class = flipped[1].querySelector('.card-front').firstChild.classList[1];
@@ -177,8 +179,8 @@ function check_cards(){
 
 }
 
+/** This function insert the stars into the header. */
 function change_stars(moves){
-    //this function insert the stars into the header
     let difference =  moves - min_moves;
     if ( difference < 0 ){
         return;
@@ -204,8 +206,8 @@ function change_stars(moves){
 
 }
 
+/** Actions and animations to do if user won the game. */
 function game_won(){
-    //actions and animations to do if user won the game
     timer_span.innerHTML = '';
     clearTimeout(my_timer);
     end_star.innerHTML = stars;
@@ -216,15 +218,18 @@ function game_won(){
     }
     end_moves.innerHTML = moves;
     time_taken.innerHTML = time;
-    game_won_tab.classList.toggle('hidden-game-won');
+    game_won_tab.classList.toggle('show-game-won');
     setTimeout( function(){ok_tab.classList.toggle('ok-animation'); }, 250)
 }
 
+/** Create and start the timer. */
 function start_timer(){
-    //create and start the timer
+    const start = new Date().getTime();
     timer_span.innerHTML = time + ' s';
     my_timer = setInterval(function() {
-        time += 1;
+        const now = new Date().getTime();
+        const elapsed = now - start;
+        time = Math.floor(elapsed/1000);
         timer_span.innerHTML = time + ' s';
     }, 1000);
 }
@@ -272,7 +277,7 @@ b_size_sel.addEventListener('change', function(){
 });
 
 play_again_button.addEventListener('click', function(){
-    game_won_tab.classList.toggle('hidden-game-won');
+    game_won_tab.classList.toggle('show-game-won');
     ok_tab.classList.toggle('ok-animation');
     reset_data();
     init_board();
@@ -280,6 +285,6 @@ play_again_button.addEventListener('click', function(){
 
 window.addEventListener( 'resize', define_height );
 
-
+/** Start the game. */
 define_height();
 init_board();

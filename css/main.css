@@ -81,7 +81,7 @@ select {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
     width: 100%;
     margin: auto;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
@@ -205,7 +205,7 @@ svg {
 .game-won {
     position: absolute;
     top: 0;
-    left: 0;
+    left: -100%;
     width: 100%;
     background: #ffffffe6;
     text-align: center;
@@ -214,8 +214,8 @@ svg {
     align-items: center;
 }
 
-.hidden-game-won {
-    transform: translate(-100%, 0);
+.show-game-won {
+    transform: translate(100%, 0);
 }
 
 .game-won svg {
