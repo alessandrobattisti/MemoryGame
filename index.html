@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <div class="container">
+        <section class="container">
             <h1>Matching Game <span class="timer"></span></h1>
             <div class="header">
                 <div class="buttons">
@@ -33,7 +33,45 @@
                 </div>
             </div>
             <div class="board"></div>
+        </section>
+
+        <section class="best-scores">
+            <h2>Best 10 scores </h2>
+            <div class="user">
+                Current user: <span class="current-user"></span>
+                <span class="edit-user">(Change user name)</span>
+            </div>
+            <table class="score-table">
+                <thead>
+                    <tr>
+                        <td> # </td>
+                        <td> User </td>
+                        <td> Board size </td>
+                        <td> Time </td>
+                        <td> Moves </td>
+                        <td> Score </td>
+                    </tr>
+                </thead>
+                <tbody class="table-data">
+                </tbody>
+            </table>
+            <div class="no-score-data">
+                No data to display.
+            </div>
+
+        </section>
+
+        <div class="change-user">
+            <div class="user-form">
+                <h3>Set user name</h3>
+                <form>
+                    <input type="text" id="user-name"/>
+                    <br />
+                    <button id="save-user">Save</button>
+                </form>
+            </div>
         </div>
+        
         <div class="game-won">
             <div class="centering">
             <div class="ok">
@@ -51,8 +89,8 @@
             </div>
             <button class="play-again">Play again</button>
             </div>
-
         </div>
+
         <script src="js/fontawesome.js"></script>
         <script src="js/app.js"></script>
     </body>

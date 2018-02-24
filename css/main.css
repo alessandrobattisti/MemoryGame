@@ -203,10 +203,11 @@ svg {
                             /*GAME WON OVERLAY*/
 
 .game-won {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: -100%;
     width: 100%;
+    height: 100%;
     background: #ffffffe6;
     text-align: center;
     transition: transform 0.3s ease;
@@ -283,6 +284,109 @@ svg {
 .time-taken, .end-moves, .end-star{
     font-weight: bold;
 }
+                                /*scores*/
+.best-scores > h2{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.best-scores {
+    margin: auto;
+}
+
+.score-table {
+    width: 100%;
+}
+
+thead {
+    background: #6bd1a5;
+    color: white;
+}
+
+thead td {
+    padding: 10px;
+    text-align: center;
+}
+
+.table-data {
+    font-size: 1.5em;
+}
+
+.table-data td{
+    padding: 5px;
+    text-align: center;
+}
+
+.table-data tr {
+    border-bottom: 1px solid lightblue;
+}
+
+table {
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.no-score-data {
+    text-align: center;
+    font-size: 1.5em;
+    display: none;
+    margin-bottom: 20px;
+}
+
+.change-user {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #ffffffe6;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.user-form {
+    background: #729e8a99;
+    margin: auto;
+    margin-top: 10%;
+    width: 30%;
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.user-form input {
+    margin-bottom: 10px;
+}
+
+#user-name {
+    width: 80%;
+    background: white;
+    border: none;
+    padding: 10px;
+}
+
+.edit-user {
+    font-size: 0.8em;
+    color: #6bd1a5;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-user:hover {
+    text-decoration: underline;
+}
+
+.user {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.current-user{
+    font-weight: bold;
+}
                                 /*MEDIA QUERIES*/
 
 @media screen and (max-width: 330px) {
@@ -295,6 +399,14 @@ svg {
     .card-front {
         font-size: 2em!important;
     }
+    thead td {
+        padding: 10px 0;
+    }
+
+    .table-data td{
+        padding: 5px 0;
+    }
+
 }
 
 @media screen and (max-height: 400px) {
@@ -307,6 +419,12 @@ svg {
     .card-front {
         font-size: 2.5em!important;
     }
+    thead {
+        font-size: 1em;
+    }
+    .table-data {
+        font-size: 1.1em;
+    }
 }
 
 @media screen and (max-height: 500px) {
@@ -318,6 +436,9 @@ svg {
 @media screen and (min-width: 501px) {
     .card-front {
         font-size: 3.5em;
+    }
+    thead {
+        font-size: 1.5em;
     }
 }
 @media screen and (min-width: 700px) {

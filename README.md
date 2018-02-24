@@ -27,6 +27,7 @@ Features:
 3. Star rating (1-3)
 3. Change board size (4x4 or 6x6)
 4. Responsive web design
+5. 10 best score saved in localStorage
 
 ## Resources used
 - Icons from [Font Awesome](https://fontawesome.com/icons).

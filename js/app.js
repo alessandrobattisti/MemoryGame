@@ -19,7 +19,10 @@ const end_moves = document.querySelector('.end-moves');
 const end_star = document.querySelector('.end-star');
 const timer_span = document.querySelector('.timer');
 const time_taken =  document.querySelector('.time-taken');
-
+const best_scores_section =  document.querySelector('.best-scores');
+const best_scores_table =  document.querySelector('.table-data');
+const change_user = document.querySelector('.change-user');
+const current_user = document.querySelector('.current-user')
 const solved = [];
 const flipped = [];
 
@@ -62,30 +65,20 @@ function define_height(){
     let b_height = board.offsetHeight;
     let b_width = board.offsetWidth;
 
+    let width = null;
     if(w_widht >= w_height){
-        let width =  w_height - 15 - h_height;
-        if(width > 700){
-            width = 700;
-        }
-        board.style.height = width + 'px';
-        board.style.width = width + 'px';
-        header.style.width = width + 'px';
+        width =  w_height - 15 - h_height;
     }else{
-        let width =  w_widht - 15;
-        if(width > 700){
-            width = 700;
-        }
-        board.style.height = width  + 'px';
-        board.style.width = width   + 'px';
-        header.style.width =  width   + 'px';
+        width =  w_widht - 15;
+    }
+    if(width > 700){
+        width = 700;
     }
 
-    if(window.innerHeight>document.body.scrollHeight){
-        game_won_tab.style.height = window.innerHeight+'px';
-    }else{
-        game_won_tab.style.height = document.body.scrollHeight+'px';
-    }
-
+    board.style.height = width  + 'px';
+    board.style.width = width   + 'px';
+    header.style.width =  width   + 'px';
+    best_scores_section.style.width =  width   + 'px';
 }
 
 /** Init the board. */
@@ -216,10 +209,17 @@ function game_won(){
     }else{
         document.querySelector('.pluralize-stars').style.display = 'inline';
     }
+
+    let score = 200 - ( moves * 3 ) - (  time * 2 ) + ( board_size**2 ) * 5 ;
+    if ( score < 0 ){
+        score = 0;
+    }
+
     end_moves.innerHTML = moves;
     time_taken.innerHTML = time;
     game_won_tab.classList.toggle('show-game-won');
-    setTimeout( function(){ok_tab.classList.toggle('ok-animation'); }, 250)
+    setTimeout( function(){ok_tab.classList.toggle('ok-animation'); }, 250);
+    update_local_storage(board_size, time, moves, score)
 }
 
 /** Create and start the timer. */
@@ -232,6 +232,65 @@ function start_timer(){
         time = Math.floor(elapsed/1000);
         timer_span.innerHTML = time + ' s';
     }, 1000);
+}
+
+/** Update the results table and Set default data in localStorage if empty*/
+function init_best_scores(){
+    if(localStorage.getItem('user') == null){
+        localStorage.setItem('user', 'Guest');
+    }
+    current_user.innerHTML = localStorage.getItem('user');
+    //best scores
+    best_scores_table.innerHTML = '';
+    const local = localStorage.getItem('best_scores')
+    if(local==null || local == '[]'){
+        document.querySelector('.no-score-data').style.display = 'block';
+        localStorage.setItem('best_scores', JSON.stringify( [] ));
+        best_scores = '';
+    } else {
+        best_scores = JSON.parse(localStorage.getItem('best_scores'));
+        document.querySelector('.no-score-data').style.display = 'none';
+        for (let i = 0; i < best_scores.length; i++){
+            const score = best_scores[i];
+            const row = best_scores_table.insertRow()
+            let cell = row.insertCell();
+            cell.innerHTML = i+1;
+            for ( const key in score ) {
+                if (score.hasOwnProperty(key)) {
+                    cell = row.insertCell();
+                    cell.innerHTML = score[key];
+                }
+            }
+        }
+    }
+}
+
+//https://stackoverflow.com/a/1129270
+/** Helper fuction to sort array of object by object property */
+function compare(a,b) {
+  if (a.score > b.score)
+    return -1;
+  if (a.score < b.score)
+    return 1;
+  return 0;
+}
+
+/** Add game stats to local storage */
+function update_local_storage(board_size, time, moves, score){
+    const best_scores = JSON.parse(localStorage.getItem('best_scores'));
+    const obj = {
+        'user': localStorage.getItem('user'),
+        'board': board_size+'x'+board_size,
+        'time': time,
+        'moves': moves,
+        'score': Math.ceil(score)
+    }
+    best_scores.push( obj );
+    // Sort array by score desc and limit to 10 entries
+    best_scores.sort(compare);
+    best_scores.splice(10);
+    localStorage.setItem('best_scores', JSON.stringify( best_scores ));
+    init_best_scores();
 }
 
                                 /*LISTENERS*/
@@ -283,8 +342,24 @@ play_again_button.addEventListener('click', function(){
     init_board();
 });
 
+document.querySelector('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    let user_name = document.querySelector('#user-name').value;
+    if (user_name == null || user_name == '' ){
+        user_name = 'Guest';
+    }
+    localStorage.setItem('user', user_name );
+    current_user.innerHTML = user_name ;
+    change_user.style.display = 'none';
+});
+
+document.querySelector('.edit-user').addEventListener('click', function(){
+    change_user.style.display = 'block';
+});
+
 window.addEventListener( 'resize', define_height );
 
 /** Start the game. */
 define_height();
 init_board();
+init_best_scores();
